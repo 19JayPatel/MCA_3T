@@ -644,7 +644,7 @@
 
             </div>
 
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False">
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_RowCommand">
                 <Columns>
                     <asp:TemplateField HeaderText="Id">
                         <ItemTemplate>

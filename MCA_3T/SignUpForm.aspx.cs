@@ -54,6 +54,8 @@ namespace MCA_3T
             txteml.Text = "";
             txtmbl.Text = "";
             drpct.SelectedIndex = 0;
+            rdgen.Checked = false;
+            rdFemale.Checked = false;
         }
 
         //Paring
@@ -69,31 +71,44 @@ namespace MCA_3T
             drpct.SelectedValue = ds.Tables[0].Rows[0]["City"].ToString();
             txtmbl.Text = ds.Tables[0].Rows[0]["Mobile"].ToString();
 
-            if (ds.Tables[0].Rows[0]["Gender"].ToString() == "Male")
+            string gender = ds.Tables[0].Rows[0]["Gender"].ToString();
+
+            if (gender == "Male")
             {
-                rdgen.Text = "Male";
+                rdgen.Checked = true;
             }
             else
             {
-                rdgen.Text = "Female";
+                rdFemale.Checked = true;
             }
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            if (Button1.Text == "Save Employee Details")
+            string gender = "";
+
+            if (rdgen.Checked == true)
+            {
+                gender = "Male";
+            }
+            else if (rdFemale.Checked == true)
+            {
+                gender = "Female";
+            }
+
+            if (Button1.Text == "Save Employee")
             {
                 imageupload();
                 emp = new Signup_form_BL();
                 emp.getcon();
-                emp.insert(txtnm.Text, txteml.Text, rdgen.Text, drpct.SelectedValue, txtmbl.Text, fnm);
+                emp.insert(txtnm.Text, txteml.Text, gender, drpct.SelectedValue, txtmbl.Text, fnm);
                 clear();
                 fillgrid();
             }
             else
             {
                 startcon();
-                emp.update(Convert.ToInt32(ViewState["Id"]), txtnm.Text, txteml.Text, rdgen.Text, drpct.SelectedValue, txtmbl.Text);
+                emp.update(Convert.ToInt32(ViewState["Id"]), txtnm.Text, txteml.Text, gender, drpct.SelectedValue, txtmbl.Text);
                 clear();
                 fillgrid();
                 Button1.Text = "Save";
